@@ -27,18 +27,24 @@
             margin-bottom: 70px;
         }
         h2 {
-            font-size: 1.5em;
+            font-size: 1em;
             line-height: 0em;
         }
         p {
-            font-size: 1.5em;
+            font-size: 1em;
             line-height: 0em;
         }
         ul {
             list-style-type: none;
-            font-size: 1em;
+            font-size: .7em;
             padding: 0;
-            line-height: .8em;
+            line-height: .3em;
+        }
+        u2 {
+            list-style-type: none;
+            font-size: .7em;
+            padding: 0;
+            line-height: .9em;
         }
 
         
@@ -125,10 +131,8 @@
                 eventDiv.innerHTML = `
                     <h2>${getDayOfWeek(event.dateForDisplay)}</h2>
                     <p><strong>${event.name}</strong></p>
-                    <ul>
-                        <li>${event.group1.join(', ')}</li>
-                        <li>${event.group2.join(', ')}</li>
-                    </ul>
+                    <ul><li>${event.group1.join(', ')}</li></ul>
+                    <u2><li>${event.group2.join(', ')}</li></u2>
                 `;
 
                 eventsContainer.appendChild(eventDiv);

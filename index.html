@@ -45,6 +45,12 @@
             list-style-type: none;
             font-size: 1em;
             padding: 0;
+            line-height: .3em;
+        }
+        u2 {
+            list-style-type: none;
+            font-size: 1em;
+            padding: 0;
             line-height: .9em;
         }
         .footer {
@@ -158,10 +164,9 @@
             eventDiv.innerHTML = `
                 <h2>${getDayOfWeek(event.dateForDisplay)}</h2>
                 <p><strong>${event.name}</strong></p>
-                <ul>
-                    <li>${event.group1.join(', ')}</li>
-                    <li>${event.group2.join(', ')}</li>
-                </ul>
+                <ul><li>${event.group1.join(', ')}</li></ul>
+                <u2><li>${event.group2.join(', ')}</li></u2>
+                
             `;
 
             eventsContainer.appendChild(eventDiv);
