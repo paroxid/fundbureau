@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive</title>
+    <style>
+        @font-face {
+            font-family: 'LoosBlack';
+            src: url('Loos_Normal_Black.otf') format('opentype');
+        }
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'LoosBlack', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100vw;
+            overflow-y: auto;  /* Enable vertical scrolling */
+        }
+        .event {
+            margin-bottom: 70px;
+        }
+        h2 {
+            font-size: 2em;
+            line-height: 0em;
+        }
+        p {
+            font-size: 2em;
+            line-height: 0em;
+        }
+        ul {
+            list-style-type: none;
+            font-size: 1.5em;
+            padding: 0;
+            line-height: .8em;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="events"></div>
+
+    <div class="footer">
+        <a href="#">Kontakt</a>
+        <a href="index.html">Zurück</a>
+        <a href="#">Impressum</a>
+    </div>
+
+    <script>
+        // Function to get the day of the week (e.g., "Saturday, 11.01.25")
+        const getDayOfWeek = (dateString) => {
+            const daysOfWeek = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+            const dateParts = dateString.split(".");
+            const date = new Date(`20${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
+            const dayIndex = date.getDay();
+            return `${daysOfWeek[dayIndex]}, ${dateString}`;
+        };
+
+        // Helper function to convert date string "DD.MM.YY" to a Date object
+        const parseDateForSorting = (dateString) => {
+            const dateParts = dateString.split(".");
+            // Return a Date object (note: months are zero-indexed in JavaScript)
+            return new Date(`20${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
+        };
+
+        // Get the current date for comparison
+        const currentDate = new Date();
+
+        // Fetch data and process events for the archive page
+        fetch('Events.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to load Events.json');
+            }
+            return response.json();
+        })
+        .then(rawData => {
+            const eventsData = rawData.map(entry => {
+                const eventDate = parseDateForSorting(entry[0]);  // Convert to Date object
+                const formattedDateForDisplay = entry[0]; // Original format for display
+                const name = entry[1];
+                const group1 = entry.slice(2, 5);
+                const group2 = entry.slice(5);
+
+                return {
+                    eventDate: eventDate,
+                    dateForDisplay: formattedDateForDisplay,
+                    name: name,
+                    group1: group1,
+                    group2: group2
+                };
+            });
+
+            // Filter out events that have already happened (before the current date)
+            const pastEvents = eventsData.filter(event => event.eventDate < currentDate);
+
+            // Sort events in reverse order (most recent first)
+            const sortedEvents = pastEvents.sort((a, b) => b.eventDate - a.eventDate);
+            displayEvents(sortedEvents); // Show all past events on the archive page
+        })
+        .catch(error => {
+            console.error('Error loading JSON data:', error);
+            document.getElementById('events').innerHTML = 'Failed to load event data.';
+        });
+
+        // Function to display events
+        const displayEvents = (events) => {
+            const eventsContainer = document.getElementById('events');
+            if (events.length === 0) {
+                eventsContainer.innerHTML = 'No past events.';
+                return;
+            }
+
+            events.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.classList.add('event');
+
+                eventDiv.innerHTML = `
+                    <h2>${getDayOfWeek(event.dateForDisplay)}</h2>
+                    <p><strong>${event.name}</strong></p>
+                    <ul>
+                        <li>${event.group1.join(', ')}</li>
+                        <li>${event.group2.join(', ')}</li>
+                    </ul>
+                `;
+
+                eventsContainer.appendChild(eventDiv);
+            });
+        };
+    </script>
+</body>
+</html>
