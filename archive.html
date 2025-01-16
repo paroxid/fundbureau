@@ -22,31 +22,53 @@
             align-items: flex-start;
             width: 100vw;
             overflow-y: auto;  /* Enable vertical scrolling */
+            overflow-x: hidden;
         }
         .event {
             margin-bottom: 70px;
         }
         h2 {
-            font-size: 1em;
-            line-height: 0em;
+            font-size: 3.2vh;
+            line-height: 5%;
+            padding: 0;
         }
         p {
-            font-size: 1em;
-            line-height: 0em;
+            font-size: 3.2vh;
+            line-height: 1%;
+            padding: 0;
         }
         ul {
             list-style-type: none;
-            font-size: .7em;
+            font-size: 1.5vh;
+            line-height: 2%;
             padding: 0;
-            line-height: .3em;
         }
         u2 {
             list-style-type: none;
-            font-size: .7em;
+            font-size: 1.5vh;
             padding: 0;
+            line-height: 2%;
             line-height: .9em;
         }
-
+        .footer {
+            width: 100%;
+            text-align: center;
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            font-size: 1em;
+            z-index: 2;
+            mix-blend-mode: difference;
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            mix-blend-mode: inherit;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
         
     </style>
 </head>
@@ -57,6 +79,7 @@
         <a href="#">Kontakt</a>
         <a href="index.html">Zurück</a>
         <a href="#">Impressum</a>
+        <a href="https://fundbureau.de/">Noch Älter</a>        
     </div>
 
     <script>
