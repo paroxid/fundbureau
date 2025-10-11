@@ -47,9 +47,9 @@ const parseDate = (dateString) => {
                 .filter(event => event.date >= now)
                 .sort((a, b) => a.date - b.date); // Sort soonest first
             
-            const pastEvents = events
-                .filter(event => event.date < now)
-                .sort((a, b) => a.date - b.date); // Sort oldest first  
+const pastEvents = events
+    .filter(event => event.date < now)
+    .sort((a, b) => b.date - a.date); // Sorts most recent first 
                 
 
             // Display events on the correct page
