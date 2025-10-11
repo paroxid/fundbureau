@@ -1,0 +1,162 @@
+/* Import the custom fonts */
+@font-face {
+    font-family: 'Loos';
+    src: url('../fonts/fonnts.com-Loos_Normal_Medium.otf') format('opentype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Loos';
+    src: url('../fonts/fonnts.com-Loos_Normal_Black.otf') format('opentype');
+    font-weight: 900; /* Black */
+    font-style: normal;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Apply overflow: hidden only to the home page */
+body.home-page {
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -100; /* Keeps it in the background */
+    outline: 0;
+}
+
+/* Basic styles */
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Loos', sans-serif;
+    font-weight: 500;
+    margin: 0;
+    padding: 2rem;
+    padding-bottom: 5rem; /* Add this to create space for the footer */
+
+    min-height: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    flex-grow: 1; /* This makes the main content grow to push the footer down */
+
+    /* Add these lines to vertically center the content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h1 {
+    font-weight: 900;
+    font-size: 2.5rem;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+a {
+    color: #8c8c8c;
+}
+
+footer {
+    /* Positioning */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0; /* Or width: 100%; */
+
+    /* Styling */
+
+    border-top: 0px solid #424242;
+    padding: 1rem 0; /* A little padding for top and bottom */
+    background-color: #000;
+    
+}
+
+nav {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+/* ... nav a styles remain the same ... */
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 0.8rem; /* <-- Reduced the font size */
+}
+
+nav a:hover {
+    color: #aaa;
+}
+
+
+/* Event styling */
+.event {
+    margin-bottom: 3rem;
+    text-align: center; /* This centers all the text */
+    /* The border-left and padding-left properties have been removed */
+}
+
+/* Add these new rules for the date and name */
+.event-date,
+.event-name {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase; /* This makes the text all caps */
+}
+
+.event-name {
+    line-height: 90%;
+    margin-bottom: 0rem; /* Adds a little space below the event name */
+}
+
+.event-artists {
+    margin-top: .5rem;
+    color: #ffffff;
+    line-height: 90%;
+    text-transform: uppercase; /* Add this line */
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.event-ticket-link {
+    
+    margin-top: .6rem;
+    display: inline-block;
+    margin-top: rem;
+    color: #000;
+    background-color: #8c8c8c;
+    padding: 0.1rem 0.2rem;
+    text-decoration: none;
+    font-weight: 500;
+        text-transform: uppercase; /* This makes the text all caps */
+}
+
+.event-ticket-link:hover {
+    background-color: #ccc;
+}
+
+/* Hide the ticket link on the archive page */
+#past-events-container .event-ticket-link {
+    display: none;
+}
+
