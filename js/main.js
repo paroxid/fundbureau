@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Path to your CSV file
 const CSV_PATH = 'data/events.csv';
-const DEFAULT_TICKET_LINK = 'https://www.ticketmaster.de/venue/fundbureau-hamburg-tickets/hamfundb/701?language=en-us'; // <-- ADD THIS LINE
+const DEFAULT_TICKET_LINK = 'https://www.ticketmaster.de/venue/fundbureau-hamburg-tickets/hamfundb/701?language=en-us';
     
     // Find the containers on the page
     const upcomingContainer = document.getElementById('upcoming-events-container');
@@ -27,17 +27,28 @@ const parseDate = (dateString) => {
             const headers = rows.shift().split(','); // Assumes first row is headers
 
             const events = rows.map(row => {
-                const values = row.split(',');
-                // CSV structure: Date,Event Name,Artist,Artist,Artist,Artist,Artist,Artist,Link to Ticketshop
-                const eventData = {
-                    date: parseDate(values[0]),
-                    dateString: values[0],
-                    name: values[1],
-                    artists: values.slice(2, 8).filter(artist => artist.trim() !== '').join(', '), // Collects up to 6 artists
-                    ticketLink: values[8]
-                };
-                return eventData;
-            });
+    // This removes a potential carriage return character (\r) that can cause issues with files from Windows
+    const cleanRow = row.replace(/\r$/, '');
+    const values = cleanRow.split(',');
+    
+    // Start by assuming we'll use the default link
+    let finalTicketLink = DEFAULT_TICKET_LINK;
+
+    // Check if a link exists in the CSV and that it's not just empty spaces
+    if (values[8] && values[8].trim().length > 0) {
+        // If it's valid, use it instead of the default
+        finalTicketLink = values[8].trim();
+    }
+
+    const eventData = {
+        date: parseDate(values[0]),
+        dateString: values[0],
+        name: values[1],
+        artists: values.slice(2, 8).filter(artist => artist.trim() !== '').join(', '),
+        ticketLink: finalTicketLink // Use our final, safe link
+    };
+    return eventData;
+});
             
             // Separate events into upcoming and past
             const now = new Date();
