@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set des Tages</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <script>
+        // This function runs when the page loads
+        async function dailyRedirect() {
+            try {
+                // 1. Fetch the list of links from your text file
+                const response = await fetch('links.txt');
+                const text = await response.text();
+                
+                // 2. Split the text into an array of links, removing any empty lines
+                const links = text.split('\n').filter(link => link.trim() !== '');
+
+                if (links.length === 0) {
+                    document.body.innerText = "Error: The link list is empty.";
+                    return;
+                }
+
+                // 3. Calculate a unique number for the current day
+                // This gives us a consistent index for an entire day
+                const today = new Date();
+                const dayIndex = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+
+                // 4. Pick a link from the array based on the day's index
+                // The modulo (%) operator ensures the index wraps around if it's larger than the list size
+                const linkOfTheDay = links[dayIndex % links.length];
+
+                // 5. Redirect the user to that link
+                window.location.href = linkOfTheDay;
+
+            } catch (error) {
+                console.error('Failed to load links:', error);
+                document.body.innerText = "Could not load the list of links. Please ensure links.txt exists.";
+            }
+        }
+
+        // Run the function
+        dailyRedirect();
+    </script>
+</head>
+<body>
+    <p>Please wait, you are being redirected...</p>
+</body>
+</html>
