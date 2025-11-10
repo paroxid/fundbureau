@@ -22,10 +22,7 @@ html {
 
 
 
-/* Apply overflow: hidden only to the home page */
-body.home-page {
-    /*overflow: hidden;*/
-}
+
 
 canvas {
     display: block;
