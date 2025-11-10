@@ -20,14 +20,16 @@ html {
     height: 100%;
 }
 
+
+
 /* Apply overflow: hidden only to the home page */
 body.home-page {
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 canvas {
     display: block;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;

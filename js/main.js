@@ -66,7 +66,7 @@ const pastEvents = events
             // Display events on the correct page
             if (upcomingContainer) {
                 // On the landing page, show the next 3 events
-                displayEvents(upcomingEvents.slice(0, 3), upcomingContainer);
+                displayEvents(upcomingEvents.slice(0, 10), upcomingContainer);
             }
             if (pastContainer) {
                 // On the archive page, show all past events
