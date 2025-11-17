@@ -1,14 +1,14 @@
 /* Import the custom fonts */
 @font-face {
-    font-family: 'Loos';
-    src: url('../fonts/fonnts.com-Loos_Normal_Medium.otf') format('opentype');
+    font-family: 'fundi';
+    src: url('../fonts/font_medium.otf') format('opentype');
     font-weight: 500; /* Medium */
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Loos';
-    src: url('../fonts/fonnts.com-Loos_Normal_Black.otf') format('opentype');
+    font-family: 'fundi';
+    src: url('../fonts/font_bold.otf') format('opentype');
     font-weight: 900; /* Black */
     font-style: normal;
 }
@@ -39,7 +39,7 @@ canvas {
 body {
     background-color: #000;
     color: #fff;
-    font-family: 'Loos', sans-serif;
+    font-family: 'fundi', sans-serif;
     font-weight: 500;
     margin: 0;
     padding: 2rem;
