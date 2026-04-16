@@ -159,3 +159,42 @@ nav a:hover {
     display: none;
 }
 
+.event-artists sup {
+    font-size: 0.7em;
+    margin-left: 0.1em;
+}
+
+.event-ticket-link:not([href]) {
+    cursor: default;
+    opacity: 0.7;
+}
+
+/* Remove the default arrow */
+.faq-question {
+    list-style: none;
+    cursor: pointer;
+}
+.faq-question::-webkit-details-marker {
+    display: none;
+}
+
+/* Optional: add your own indicator */
+.faq-question::after {
+    content: "+";
+    float: right;
+}
+.faq-item[open] .faq-question::after {
+    content: "−";
+}
+
+
+
+/* Chrome, Safari, Edge */
+.faq-question::-webkit-details-marker {
+    display: none;
+}
+
+/* Firefox */
+.faq-question::marker {
+    content: "";
+}

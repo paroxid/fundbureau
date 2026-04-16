@@ -10,31 +10,6 @@ const DEFAULT_TICKET_LINK = 'https://www.ticketmaster.de/venue/fundbureau-hambur
     const upcomingContainer = document.getElementById('upcoming-events-container');
     const pastContainer = document.getElementById('past-events-container');
 
-// Function to split an artist string into name and optional playtime.
-// Playtime is the LAST space-separated token and must match one of these patterns:
-//   0-3        digits - digits
-//   23:30-3    digits:digits - digits (hours can also have :minutes)
-//   0:30-1:30  digits:digits - digits:digits
-//   3-?        digits - ?
-// Spaces around the hyphen are allowed: "0 - 3", "23:30 - 3:00", etc.
-// If no playtime is detected, the whole string is returned as the name (backward compat).
-const splitArtistAndPlaytime = (artistString) => {
-    const trimmed = artistString.trim();
-    // Regex: capture the playtime at the end of the string, preceded by whitespace.
-    //   (\d+(?::\d+)?)        -> start time: digits, optional :digits
-    //   \s*-\s*               -> hyphen with optional spaces
-    //   (\d+(?::\d+)?|\?)     -> end time: digits(+optional :digits) OR a literal ?
-    const playtimeRegex = /\s+(\d+(?::\d+)?\s*-\s*(?:\d+(?::\d+)?|\?))$/;
-    const match = trimmed.match(playtimeRegex);
-
-    if (match) {
-        const playtime = match[1].replace(/\s+/g, ''); // remove spaces inside "0 - 3" -> "0-3"
-        const name = trimmed.slice(0, match.index).trim();
-        return { name, playtime };
-    }
-    return { name: trimmed, playtime: null };
-};
-
 // Function to parse the DD.MM.YY date format into a real Date object
 const parseDate = (dateString) => {
     const [day, month, year] = dateString.split('.').map(Number);
@@ -56,37 +31,21 @@ const parseDate = (dateString) => {
     const cleanRow = row.replace(/\r$/, '');
     const values = cleanRow.split(',');
     
-    // Decide what to show for the ticket button:
-    //   - Empty column       -> default link, label "Tickets"
-    //   - Value is a link    -> that link, label "Tickets"
-    //   - Value is other text -> no link (unpressable), label is that text
+    // Start by assuming we'll use the default link
     let finalTicketLink = DEFAULT_TICKET_LINK;
-    let ticketLabel = 'Tickets';
 
-    const rawTicketValue = values[8] ? values[8].trim() : '';
-    if (rawTicketValue.length > 0) {
-        const isLink = /^(https?:\/\/|www\.)/i.test(rawTicketValue);
-        if (isLink) {
-            finalTicketLink = rawTicketValue;
-        } else {
-            finalTicketLink = null; // signal "no link, unpressable"
-            ticketLabel = rawTicketValue;
-        }
+    // Check if a link exists in the CSV and that it's not just empty spaces
+    if (values[8] && values[8].trim().length > 0) {
+        // If it's valid, use it instead of the default
+        finalTicketLink = values[8].trim();
     }
 
     const eventData = {
         date: parseDate(values[0]),
         dateString: values[0],
         name: values[1],
-        artists: values.slice(2, 8)
-            .filter(artist => artist.trim() !== '')
-            .map(artist => {
-                const { name, playtime } = splitArtistAndPlaytime(artist);
-                return playtime ? `${name}<sup>${playtime}</sup>` : name;
-            })
-            .join(', '),
-        ticketLink: finalTicketLink,
-        ticketLabel: ticketLabel
+        artists: values.slice(2, 8).filter(artist => artist.trim() !== '').join(', '),
+        ticketLink: finalTicketLink // Use our final, safe link
     };
     return eventData;
 });
@@ -131,16 +90,12 @@ const pastEvents = events
 
         let eventsHtml = '';
         for (const event of events) {
-            // If there's no link, render the anchor without href (unpressable).
-            const ticketAttrs = event.ticketLink
-                ? `href="${event.ticketLink}" target="_blank"`
-                : '';
             eventsHtml += `
                 <div class="event">
         <div class="event-date">${event.dateString}</div>
         <div class="event-name">${event.name}</div>
         <div class="event-artists">${event.artists}</div>
-        <a ${ticketAttrs} class="event-ticket-link">${event.ticketLabel}</a>
+        <a href="${event.ticketLink}" target="_blank" class="event-ticket-link">Tickets</a>
     </div>
             `;
         }
