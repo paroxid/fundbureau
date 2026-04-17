@@ -74,6 +74,9 @@ const parseDate = (dateString) => {
         }
     }
 
+    // Start time (column 9): free-form string, uppercased. Empty -> not shown.
+    const startTime = values[9] ? values[9].trim().toUpperCase() : '';
+
     const eventData = {
         date: parseDate(values[0]),
         dateString: values[0],
@@ -86,7 +89,8 @@ const parseDate = (dateString) => {
             })
             .join(', '),
         ticketLink: finalTicketLink,
-        ticketLabel: ticketLabel
+        ticketLabel: ticketLabel,
+        startTime: startTime
     };
     return eventData;
 });
@@ -135,11 +139,16 @@ const pastEvents = events
             const ticketAttrs = event.ticketLink
                 ? `href="${event.ticketLink}" target="_blank"`
                 : '';
+            // Only render the start time line if a value is present.
+            const startTimeHtml = event.startTime
+                ? `<div class="event-starttime">${event.startTime}</div>`
+                : '';
             eventsHtml += `
                 <div class="event">
         <div class="event-date">${event.dateString}</div>
         <div class="event-name">${event.name}</div>
         <div class="event-artists">${event.artists}</div>
+        ${startTimeHtml}
         <a ${ticketAttrs} class="event-ticket-link">${event.ticketLabel}</a>
     </div>
             `;

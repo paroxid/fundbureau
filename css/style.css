@@ -198,3 +198,9 @@ nav a:hover {
 .faq-question::marker {
     content: "";
 }
+
+.event-starttime {
+    margin-top: .2em;
+    font-size: 1em;
+    opacity: 0.7;
+}
