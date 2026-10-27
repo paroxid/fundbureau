@@ -1,0 +1,7 @@
+# Serve /data/events.csv through the Google Sheet sync script.
+# Query strings such as ?t= are kept, so the timetable cache-buster still works.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /data/
+RewriteRule ^events\.csv$ events.php [L]
+</IfModule>
